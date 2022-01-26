@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+bci3wads = {editable = true, path = "."}
+
+[dev-packages]
+tox = "*"
+sphinx = "*"
+pytest = "*"
+jupyterlab = "*"
+autopep8 = "*"
+
+[requires]
+python_version = "3.9"

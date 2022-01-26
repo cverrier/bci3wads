@@ -1,3 +1,6 @@
+### Data Files ###
+/data
+
 # Temporary and binary files
 *~
 *.py[cod]

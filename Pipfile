@@ -9,9 +9,9 @@ bci3wads = {editable = true, path = "."}
 [dev-packages]
 tox = "*"
 sphinx = "*"
+autopep8 = "*"
 pytest = "*"
 jupyterlab = "*"
-autopep8 = "*"
 
 [requires]
-python_version = "3.9"
+python_version = "3.10"

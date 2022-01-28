@@ -1,13 +1,15 @@
-from distutils.command.clean import clean
+import pickle
 import pathlib
 import scipy.io
-import numpy as np
+
+from bci3wads.utils import constants
 
 
 class Subject:
-    def __init__(self, data_path: pathlib.Path):
-        data = scipy.io.loadmat(data_path)
+    def __init__(self, filename):
+        data = scipy.io.loadmat(constants.RAW_DATA_PATH.joinpath(filename))
 
+        self.name = pathlib.Path(filename).stem
         self.signals = data['Signal']
         self.target_chars = data['TargetChar']
         self.flashings = data['Flashing']
@@ -15,7 +17,7 @@ class Subject:
         self.stimulus_types = data['StimulusType']
 
     def clean_target_chars(self):
-        target_chars = self.target_chars = [
+        target_chars = [
             char for char in self.target_chars[0]
         ]
         return target_chars
@@ -39,3 +41,12 @@ class Subject:
         cleaned['stimulus_types'] = self.clean_stimulus_types()
 
         return cleaned
+
+    def save(self):
+        cleaned = self.clean_data()
+
+        filename = self.name + '.pickle'
+        data_path = constants.INTER_DATA_PATH.joinpath(filename)
+
+        with open(data_path, 'wb') as f:
+            pickle.dump(cleaned, f)

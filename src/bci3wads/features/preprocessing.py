@@ -42,11 +42,9 @@ class Subject:
 
         return cleaned
 
-    def save(self):
-        cleaned = self.clean_data()
-
+    def save(self, data):
         filename = self.name + '.pickle'
         data_path = constants.INTER_DATA_PATH.joinpath(filename)
 
         with open(data_path, 'wb') as f:
-            pickle.dump(cleaned, f)
+            pickle.dump(data, f)

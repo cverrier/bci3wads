@@ -65,6 +65,16 @@ class Epoch:
 
         return processed_channels
 
+    def target_char_codes(self):
+        codes = np.nonzero(constants.CHARACTERS == self.target_char)
+
+        return codes[0][0] + 6, codes[1][0]
+
+    def target_char_coords(self):
+        coords = np.nonzero(constants.CHARACTERS == self.target_char)
+
+        return coords[0][0], coords[1][0]
+
 
 class Subject:
     def __init__(self, filename):
@@ -85,9 +95,36 @@ class Subject:
             )
         ]
 
-    def process_epoch(self, epoch_id, channel_ids=constants.CHANNEL_IDS,
-                      window_size=constants.WINDOW_SIZE):
+    def process_epoch_channels(self, epoch_id=constants.EPOCH_ID,
+                               channel_ids=constants.CHANNEL_IDS,
+                               window_size=constants.WINDOW_SIZE):
         processed_channels = self.epochs[epoch_id].process_channels(
             channel_ids, window_size)
 
         return processed_channels
+
+    def process_epoch(self, processed_channels, target_char, target_char_codes,
+                      target_char_coords,
+                      epoch_id=constants.EPOCH_ID,
+                      channel_ids=constants.CHANNEL_IDS):
+        data = {}
+
+        data['target_char'] = target_char
+        data['target_char_codes'] = target_char_codes
+        data['target_char_coords'] = target_char_coords
+        data['epoch_id'] = epoch_id
+        data['channel_ids'] = channel_ids
+        data['processed_channels'] = processed_channels
+
+        return data
+
+    def save_epoch(self, data):
+        dir_path = constants.PROC_DATA_PATH / self.name / \
+            f"channels_{'_'.join([str(ind) for ind in data['channel_ids']])}"
+        dir_path.mkdir(parents=True, exist_ok=True)
+
+        filename = f"epoch_{data['epoch_id']}.pickle"
+        file_path = dir_path.joinpath(filename)
+
+        with open(file_path, 'wb') as f:
+            pickle.dump(data, f)

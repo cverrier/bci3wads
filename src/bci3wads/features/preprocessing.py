@@ -26,7 +26,7 @@ class Subject:
         return self.flashings.astype(int)
 
     def clean_stimulus_codes(self):
-        return self.stimulus_types.astype(int) - 1
+        return self.stimulus_codes.astype(int) - 1
 
     def clean_stimulus_types(self):
         return self.stimulus_types.astype(bool)

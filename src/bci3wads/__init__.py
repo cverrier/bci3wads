@@ -17,3 +17,4 @@ finally:
 
 from . import utils
 from . import features
+from . import models

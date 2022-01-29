@@ -68,12 +68,12 @@ class Epoch:
     def target_char_codes(self):
         codes = np.nonzero(constants.CHARACTERS == self.target_char)
 
-        return codes[0][0] + 6, codes[1][0]
+        return [codes[0][0] + 6, codes[1][0]]
 
     def target_char_coords(self):
         coords = np.nonzero(constants.CHARACTERS == self.target_char)
 
-        return coords[0][0], coords[1][0]
+        return [coords[0][0], coords[1][0]]
 
 
 class Subject:

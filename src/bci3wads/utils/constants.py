@@ -18,3 +18,6 @@ CHARACTERS = np.array([
     ['Y', 'Z', '1', '2', '3', '4'],
     ['5', '6', '7', '8', '9', '_']
 ])
+
+REF_SUBJECT_PATH = PROC_DATA_PATH / 'Subject_A_Train' / 'channels_11'
+REF_EPOCH_PATH = REF_SUBJECT_PATH / 'epoch_0.pickle'

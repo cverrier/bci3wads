@@ -19,9 +19,9 @@ class Detector:
     def predict_scores(self, signals):
         return signals @ self.coef_
 
-    def predict(self, signals):
+    def predict(self, signals, n_match=2):
         scores = self.predict_scores(signals)
-        best_scores_inds = np.argsort(scores)[-2:]
+        best_scores_inds = np.argsort(scores)[-n_match:]
         predictions = np.zeros(len(signals), dtype=bool)
         predictions[best_scores_inds] = True
 

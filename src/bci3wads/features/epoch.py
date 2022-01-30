@@ -21,13 +21,16 @@ class Epoch:
 
         return self.signals[mismatch_codes]
 
-    def average_signals(self, cls='match'):
+    def average_signals(self, cls=None):
         if cls == 'match':
             signals = self.get_match_signals()
-        else:
+            average = np.mean(signals, axis=(0, 1))
+        elif cls == 'mismatch':
             signals = self.get_mismatch_signals()
-
-        average = np.mean(signals, axis=(0, 1))
+            average = np.mean(signals, axis=(0, 1))
+        else:
+            signals = self.signals
+            average = np.mean(signals, axis=1)
 
         return average
 

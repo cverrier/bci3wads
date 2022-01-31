@@ -1,5 +1,6 @@
 ### Data Files ###
 /data
+/models
 
 # Temporary and binary files
 *~

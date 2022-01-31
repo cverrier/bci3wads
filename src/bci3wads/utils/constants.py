@@ -5,6 +5,8 @@ RAW_DATA_PATH = pathlib.Path.cwd() / 'data' / 'raw'
 INTER_DATA_PATH = pathlib.Path.cwd() / 'data' / 'intermediate'
 PROC_DATA_PATH = pathlib.Path.cwd() / 'data' / 'processed'
 
+PREDICTIONS_PATH = pathlib.Path.cwd() / 'models' / 'predictions'
+
 WINDOW_SIZE = 240
 EPOCH_ID = 0
 CHANNEL_ID = 11

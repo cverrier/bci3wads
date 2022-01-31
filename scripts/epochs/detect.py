@@ -1,4 +1,3 @@
-import pickle
 import pathlib
 import numpy as np
 import bci3wads.models as models

@@ -7,6 +7,8 @@ PROC_DATA_PATH = pathlib.Path.cwd() / 'data' / 'processed'
 
 PREDICTIONS_PATH = pathlib.Path.cwd() / 'models' / 'predictions'
 
+N_CODES = 12
+N_TRIALS = 15
 WINDOW_SIZE = 240
 EPOCH_ID = 0
 CHANNEL_ID = 11

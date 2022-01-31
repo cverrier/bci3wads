@@ -1,6 +1,6 @@
-import pickle
 import numpy as np
 
+from bci3wads.utils import data
 from bci3wads.features.epoch import Epoch
 
 
@@ -8,10 +8,7 @@ class Estimator:
     def __init__(self, epochs_path):
         epochs = []
         for epoch_path in epochs_path.glob('epoch_*.pickle'):
-            with open(epoch_path, 'rb') as f:
-                data = pickle.load(f)
-
-            epoch = Epoch(data)
+            epoch = Epoch(data.load_pickle(epoch_path))
             epochs.append(epoch)
 
         self.epochs = epochs

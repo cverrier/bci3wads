@@ -1,18 +1,15 @@
-import pickle
 import numpy as np
 import matplotlib.pyplot as plt
 
-from bci3wads.features.epoch import Epoch
+from bci3wads.utils import data
 from bci3wads.utils import constants
+from bci3wads.features.epoch import Epoch
 
 subject_match_signals = []
 subject_mismatch_signals = []
 
 for epoch_path in constants.REF_SUBJECT_PATH.glob('epoch_*.pickle'):
-    with open(epoch_path, 'rb') as f:
-        data = pickle.load(f)
-
-    epoch = Epoch(data)
+    epoch = Epoch(data.load_pickle(epoch_path))
 
     match_signals = epoch.get_match_signals()
     mismatch_signals = epoch.get_mismatch_signals()

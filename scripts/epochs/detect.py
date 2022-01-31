@@ -3,9 +3,10 @@ import pathlib
 import numpy as np
 import bci3wads.models as models
 
+from bci3wads.utils import data
+from bci3wads.utils import constants
 from bci3wads.features.epoch import Epoch
 from bci3wads.features.estimator import Estimator
-from bci3wads.utils import constants
 from bci3wads.features.formatter import Formatter
 
 
@@ -37,10 +38,7 @@ for n_trials in range(1, constants.N_TRIALS + 1):
 
     for epoch_path in sorted(list(subject_path.glob('epoch_*.pickle')),
                              key=lambda p: int(p.stem.split('_')[-1])):
-        with open(epoch_path, 'rb') as f:
-            data = pickle.load(f)
-
-        epoch = Epoch(data)
+        epoch = Epoch(data.load_pickle(epoch_path))
 
         trials_inds = np.arange(n_trials)
         signals = epoch.average_signals(trials_inds=trials_inds)

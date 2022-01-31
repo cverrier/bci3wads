@@ -4,6 +4,7 @@ import numpy as np
 import bci3wads.models as models
 
 from bci3wads.features.epoch import Epoch
+from bci3wads.features.estimator import Estimator
 from bci3wads.utils import constants
 from bci3wads.features.formatter import Formatter
 
@@ -15,13 +16,17 @@ subject_path = pathlib.Path.cwd() / 'data' / 'processed' / \
     subject_name / channels_tag
 
 results_path = constants.PREDICTIONS_PATH / \
-    'basic_detector' / subject_name / channels_tag
+    'improved_detector' / subject_name / channels_tag
 results_path.mkdir(parents=True, exist_ok=True)
 
-target_signal = np.zeros(constants.WINDOW_SIZE)
-target_signal[(300 * 240) // 1000:(500 * 240) // 1000] = 1.0
+# target_signal = np.zeros(constants.WINDOW_SIZE)
+# target_signal[(300 * 240) // 1000:(500 * 240) // 1000] = 1.0
 
-noise_cov = np.eye(len(target_signal))
+# noise_cov = np.eye(len(target_signal))
+
+estimator = Estimator(subject_path)
+target_signal = estimator.estimate_target_signal()
+noise_cov = estimator.estimate_noise_cov()
 
 predicted_chars = []
 

@@ -13,6 +13,14 @@ class Estimator:
 
         self.epochs = epochs
 
+    def get_match_proba(self):
+        epoch = self.epochs[0]
+
+        return len(epoch.target_char_codes) / len(epoch.signals)
+
+    def get_mismatch_proba(self):
+        return 1 - self.get_match_proba()
+
     def estimate_target_signal(self, method='match_avg'):
         match_signals = np.concatenate(
             [epoch.get_match_signals() for epoch in self.epochs]
@@ -22,13 +30,16 @@ class Estimator:
         if method == 'match_avg':
             return match_avg
 
-        elif method == 'match_mismatch_avg_diff':
+        elif method in ['match_mismatch_avg_diff', 'mismatch_avg']:
             mismatch_signals = np.concatenate(
                 [epoch.get_mismatch_signals() for epoch in self.epochs]
             )
             mismatch_avg = np.mean(mismatch_signals, axis=(0, 1))
 
-            return match_avg - mismatch_avg
+            if method == 'match_mismatch_avg_diff':
+                return match_avg - mismatch_avg
+            else:
+                return mismatch_avg
         else:
             raise NotImplementedError()
 

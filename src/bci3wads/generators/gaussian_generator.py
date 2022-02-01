@@ -5,7 +5,7 @@ class GaussianGenerator:
     def __init__(self, *args):
         self.means, self.covs, self.weights = list(zip(*args))
 
-    def mixture(self, n_obs: int, seed=None):
+    def mixture(self, n_obs, seed=None):
         rng = np.random.default_rng(seed=seed)
 
         labels = rng.choice(len(self.weights), size=n_obs, p=self.weights)
@@ -15,4 +15,4 @@ class GaussianGenerator:
             for i in labels
         ])
 
-        return obs
+        return obs, labels

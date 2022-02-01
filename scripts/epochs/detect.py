@@ -27,7 +27,7 @@ if model_name == 'basic_detector':
     noise_cov = np.eye(len(target_signal))
 elif model_name == 'improved_detector':
     estimator = Estimator(subject_path)
-    target_signal = estimator.estimate_target_signal()
+    target_signal = estimator.estimate_target_signal(method='match_avg')
     noise_cov = estimator.estimate_noise_cov()
 else:
     raise NotImplementedError()

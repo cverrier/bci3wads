@@ -43,10 +43,42 @@ class Estimator:
         else:
             raise NotImplementedError()
 
-    def estimate_noise_cov(self):
-        mismatch_signals = np.concatenate(
-            [epoch.get_mismatch_signals() for epoch in self.epochs]
-        )
-        n_vars = mismatch_signals.shape[-1]
+    def estimate_noise_cov(self, method='mismatch'):
+        if method == 'mismatch':
+            signals = np.concatenate(
+                [epoch.get_mismatch_signals() for epoch in self.epochs]
+            )
+        elif method == 'match':
+            signals = np.concatenate(
+                [epoch.get_match_signals() for epoch in self.epochs]
+            )
+        else:
+            raise NotImplementedError()
 
-        return np.cov(mismatch_signals.reshape(-1, n_vars), rowvar=False)
+        n_vars = signals.shape[-1]
+
+        return np.cov(signals.reshape(-1, n_vars), rowvar=False)
+
+    def estimate_disc_ana_params(self, model_type='lda'):
+        means = [
+            self.estimate_target_signal(method=method)
+            for method in ['mismatch_avg', 'match_avg']
+        ]
+
+        if model_type == 'lda':
+            cov = self.estimate_noise_cov(method='mismatch')
+
+            # Views instead of copies, be careful
+            covs = [cov] * len(means)
+        elif model_type == 'qda':
+            covs = [
+                self.estimate_noise_cov(method=method)
+                for method in ['mismatch', 'match']
+            ]
+        else:
+            raise NotImplementedError()
+
+        p0 = self.get_mismatch_proba()
+        weights = [p0, 1 - p0]
+
+        return means, covs, weights

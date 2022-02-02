@@ -9,7 +9,9 @@ PREDICTIONS_PATH = pathlib.Path.cwd() / 'models' / 'predictions'
 
 N_CODES = 12
 N_TRIALS = 15
-WINDOW_SIZE = 240
+SIGNAL_SIZE = 240
+
+WINDOW_SIZE = SIGNAL_SIZE
 EPOCH_ID = 0
 CHANNEL_ID = 11
 CHANNEL_IDS = [11]

@@ -37,5 +37,3 @@ class Epoch:
             average = np.mean(signals, axis=1)
 
         return average
-
-    pass

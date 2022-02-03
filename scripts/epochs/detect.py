@@ -9,9 +9,9 @@ from bci3wads.features.estimator import Estimator
 from bci3wads.features.formatter import Formatter
 
 
-subject_name = 'Subject_A_Train'
+subject_name = 'Subject_B_Train'
 channels_tag = 'channels_11'
-model_name = 'improved_detector'
+model_name = 'basic_detector'
 
 subject_path = pathlib.Path.cwd() / 'data' / 'processed' / \
     subject_name / channels_tag

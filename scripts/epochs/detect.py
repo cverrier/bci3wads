@@ -35,6 +35,8 @@ else:
 for n_trials in range(1, constants.N_TRIALS + 1):
     predicted_chars = []
 
+    # TODO: Use Estimator instead of this loop (epochs are saved in the
+    # estimator).
     for epoch_path in sorted(list(subject_path.glob('epoch_*.pickle')),
                              key=lambda p: int(p.stem.split('_')[-1])):
         epoch = Epoch(data.load_pickle(epoch_path))

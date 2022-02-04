@@ -1,23 +1,22 @@
-from importlib.resources import path
 import joblib
 import pathlib
 import numpy as np
 import sklearn.model_selection
 import sklearn.discriminant_analysis
 
-from bci3wads.utils import data
-from bci3wads.features.epoch import Epoch
 from bci3wads.features.estimator import Estimator
+from bci3wads.features.cov_estimator import CovEstimator
 
 
 seed = 42  # For reproducible results
 
-subject_name = 'Subject_B_Train'
+subject_name = 'Subject_A_Train'
 channels_tag = 'channels_11'
 model_type = 'lda'
+use_cov_estimator = False  # Does not seem to change anything for accuracies
 average_signals = True
-train_on_all = True
-trained_models_path = pathlib.Path.cwd() / 'models' / 'trained'
+train_on_all = False
+trained_models_path = None  # pathlib.Path.cwd() / 'models' / 'trained'
 
 subject_path = pathlib.Path.cwd() / 'data' / 'processed' / \
     subject_name / channels_tag
@@ -67,9 +66,16 @@ if not train_on_all:
 p0 = estimator.get_mismatch_proba()
 priors = [p0, 1 - p0]
 
-model = sklearn.discriminant_analysis.LinearDiscriminantAnalysis(
-    priors=priors
-)
+if use_cov_estimator:
+    cov_estimator = CovEstimator()
+    model = sklearn.discriminant_analysis.LinearDiscriminantAnalysis(
+        solver='eigen', priors=priors, covariance_estimator=cov_estimator
+    )
+else:
+    model = sklearn.discriminant_analysis.LinearDiscriminantAnalysis(
+        priors=priors
+    )
+
 model.fit(X_train, y_train)
 
 if trained_models_path is not None:

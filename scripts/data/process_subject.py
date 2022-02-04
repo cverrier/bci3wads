@@ -1,4 +1,3 @@
-from curses import window
 from bci3wads.features import processing
 from bci3wads.utils import constants
 

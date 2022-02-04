@@ -7,7 +7,8 @@ from bci3wads.features.epoch import Epoch
 class Estimator:
     def __init__(self, epochs_path):
         epochs = []
-        for epoch_path in epochs_path.glob('epoch_*.pickle'):
+        for epoch_path in sorted(list(epochs_path.glob('epoch_*.pickle')),
+                                 key=lambda p: int(p.stem.split('_')[-1])):
             epoch = Epoch(data.load_pickle(epoch_path))
             epochs.append(epoch)
 

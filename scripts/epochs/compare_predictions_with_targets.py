@@ -5,8 +5,6 @@ import matplotlib.pyplot as plt
 from bci3wads.utils import data
 from bci3wads.utils import constants
 from bci3wads.features.epoch import Epoch
-from bci3wads.features.estimator import Estimator
-from bci3wads.features.formatter import Formatter
 
 
 subject_name = 'Subject_A_Train'

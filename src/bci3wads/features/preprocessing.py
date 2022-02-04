@@ -6,15 +6,16 @@ from bci3wads.utils import constants
 
 
 class Subject:
-    def __init__(self, filename):
+    def __init__(self, filename, is_train=True):
         data = scipy.io.loadmat(constants.RAW_DATA_PATH.joinpath(filename))
 
+        self.is_train = is_train
         self.name = pathlib.Path(filename).stem
         self.signals = data['Signal']
-        self.target_chars = data['TargetChar']
+        self.target_chars = data['TargetChar'] if is_train else None
         self.flashings = data['Flashing']
         self.stimulus_codes = data['StimulusCode']
-        self.stimulus_types = data['StimulusType']
+        self.stimulus_types = data['StimulusType'] if is_train else None
 
     def clean_target_chars(self):
         target_chars = [
@@ -35,10 +36,13 @@ class Subject:
         cleaned = {}
 
         cleaned['signals'] = self.signals
-        cleaned['target_chars'] = self.clean_target_chars()
+
+        if self.is_train:
+            cleaned['target_chars'] = self.clean_target_chars()
+            cleaned['stimulus_types'] = self.clean_stimulus_types()
+
         cleaned['flashings'] = self.clean_flashings()
         cleaned['stimulus_codes'] = self.clean_stimulus_codes()
-        cleaned['stimulus_types'] = self.clean_stimulus_types()
 
         return cleaned
 

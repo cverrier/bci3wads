@@ -77,10 +77,11 @@ class Epoch:
 
 
 class Subject:
-    def __init__(self, filename):
+    def __init__(self, filename, is_train=True):
         with open(constants.INTER_DATA_PATH.joinpath(filename), 'rb') as f:
             data = pickle.load(f)
 
+        self.is_train = is_train
         self.name = pathlib.Path(filename).stem
         self.signals = data['signals']
         self.target_chars = data['target_chars']

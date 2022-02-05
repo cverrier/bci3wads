@@ -15,7 +15,7 @@ channels_tag = 'channels_11'
 model_type = 'lda'
 use_cov_estimator = False  # Does not seem to change anything for accuracies
 average_signals = True
-train_on_all = False
+train_on_all = True
 trained_models_path = None  # pathlib.Path.cwd() / 'models' / 'trained'
 
 subject_path = pathlib.Path.cwd() / 'data' / 'processed' / \

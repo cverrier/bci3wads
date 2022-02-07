@@ -8,11 +8,11 @@ class Formatter:
         self.predictions = predictions
 
     def get_coords(self):
-        best_rows_scores = self.predictions[6:]
-        best_cols_scores = self.predictions[:6]
+        rows_scores = self.predictions[6:]
+        cols_scores = self.predictions[:6]
 
-        best_row_coord = np.argmax(best_rows_scores)
-        best_col_coord = np.argmax(best_cols_scores)
+        best_row_coord = np.argmax(rows_scores)
+        best_col_coord = np.argmax(cols_scores)
 
         return [best_row_coord, best_col_coord]
 

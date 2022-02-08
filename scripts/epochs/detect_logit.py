@@ -19,7 +19,12 @@ results_path = constants.PREDICTIONS_PATH / model_type / subject_name / \
 results_path.mkdir(parents=True, exist_ok=True)
 
 models_path = pathlib.Path.cwd() / 'models' / 'trained'
-filename = '_'.join([model_type, subject_name, channels_tag]) + '.pickle'
+if 'Test' in subject_name:
+    model_subject_name = subject_name.replace('Test', 'Train')
+else:
+    model_subject_name = subject_name
+
+filename = '_'.join([model_type, model_subject_name, channels_tag]) + '.pickle'
 
 model = joblib.load(models_path.joinpath(filename))
 disc_vec = model.coef_.ravel()  # Be careful: a view, not a copy

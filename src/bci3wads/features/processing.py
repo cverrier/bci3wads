@@ -84,17 +84,36 @@ class Subject:
         self.is_train = is_train
         self.name = pathlib.Path(filename).stem
         self.signals = data['signals']
-        self.target_chars = data['target_chars']
+        self.target_chars = data.get('target_chars')
         self.flashings = data['flashings']
         self.stimulus_codes = data['stimulus_codes']
-        self.stimulus_types = data['stimulus_types']
-        self.epochs = [
-            Epoch(signal, flashing, codes, types, target_char)
-            for signal, flashing, codes, types, target_char in zip(
-                self.signals, self.flashings, self.stimulus_codes,
-                self.stimulus_types, self.target_chars
-            )
-        ]
+        self.stimulus_types = data.get('stimulus_types')
+        # self.epochs = [
+        #     Epoch(signal, flashing, codes, types, target_char)
+        #     for signal, flashing, codes, types, target_char in zip(
+        #         self.signals, self.flashings, self.stimulus_codes,
+        #         self.stimulus_types, self.target_chars
+        #     )
+        # ]
+
+    @property
+    def epochs(self):
+        if self.is_train:
+            return [
+                Epoch(signal, flashing, codes, types, target_char)
+                for signal, flashing, codes, types, target_char in zip(
+                    self.signals, self.flashings, self.stimulus_codes,
+                    self.stimulus_types, self.target_chars
+                )
+            ]
+        else:
+            return [
+                Epoch(signal, flashing, codes, stimulus_types=None,
+                      target_char=None)
+                for signal, flashing, codes in zip(
+                    self.signals, self.flashings, self.stimulus_codes
+                )
+            ]
 
     def process_epoch_channels(self, epoch_id=constants.EPOCH_ID,
                                channel_ids=constants.CHANNEL_IDS,
